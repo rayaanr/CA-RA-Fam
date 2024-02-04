@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
@@ -32,8 +32,12 @@ export default function Tree() {
             </Button>
             <AddUserModal isOpen={isOpen} onOpenChange={handleOpenChange} />
             <div className="flex gap-5">
-                {allMembersProfile.map((memberProfile) => (
-                        <MemberProfileCard memberProfile={memberProfile} />
+                {allMembersProfile.map((memberProfile, index) => (
+                    <div key={index}>
+                        <MemberProfileCard
+                            memberProfile={memberProfile}
+                        />
+                    </div>
                 ))}
             </div>
         </main>
