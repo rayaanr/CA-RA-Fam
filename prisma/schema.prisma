@@ -7,26 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Individual {
-  id                         Int            @id @default(autoincrement())
-  firstName                  String
-  lastName                   String
-  birthDate                  DateTime?
-  deathDate                  DateTime?
-  gender                     String
-  birthPlace                 String?
-  relationsAsIndividual1 Relationship[] @relation("Individual1")
-  relationsAsIndividual2 Relationship[] @relation("Individual2")
-}
-
-model Relationship {
-  id               Int       @id @default(autoincrement())
-  individual1Id    Int
-  individual2Id    Int
-  relationType String
-  startDate        DateTime?
-  endDate          DateTime?
-  individual1      Individual @relation(fields: [individual1Id], references: [id], name: "Individual1")
-  individual2      Individual @relation(fields: [individual2Id], references: [id], name: "Individual2")
+  id        String   @id @default(uuid())
+  name      String
+  gender    String?
+  birthdate DateTime?
+  fatherID  String?
+  motherID  String?
+  partnersID String[]
+  profile   String?
 }
