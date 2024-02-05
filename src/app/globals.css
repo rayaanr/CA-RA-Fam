@@ -4,6 +4,16 @@
 
 body {
   min-height: 100dvh;
+  min-width: 100dvw;
+}
+
+/* Add this CSS in your stylesheets or as a style block in your component */
+.red-dot {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
 }
 
 /* :root {

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@balkangraph/familytree.js": "^1.9.14",
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.9.1",
     "axios": "^1.6.7",
