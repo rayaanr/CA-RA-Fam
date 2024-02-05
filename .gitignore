@@ -6,9 +6,8 @@
 .pnp.js
 .yarn/install-state.gz
 
+# env files
 .env
-.env.local
-.env.production
 
 # testing
 /coverage
@@ -38,5 +37,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-/src/app/tree/familyData.json
