@@ -2570,3 +2570,5 @@ declare namespace FamilyTree {
         nodeTreeMenuCloseButton: string
     }
 }
+
+export default FamilyTree;

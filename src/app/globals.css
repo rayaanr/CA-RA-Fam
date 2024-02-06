@@ -3,17 +3,79 @@
 @tailwind utilities;
 
 body {
-  min-height: 100dvh;
-  min-width: 100dvw;
+    min-height: 100dvh;
+    min-width: 100dvw;
 }
 
+.css-to7de5  {
+  width: max-content;
+  /* margin: 0 !important; */
+}
+
+.css-1vs3jbz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+li:has(> .couple-card) > .css-to7de5::before {
+  height: 65px !important;
+  transform: translateY(-35px) !important;
+}
+
+
+li:has(> .couple-card) > ul::after {
+  left: 30% !important;
+}
+
+
+
+/* 
+
+
+
+
+li:has(> .couple-card) > .css-to7de5 {
+    margin-left: 250px !important;
+}
+
+ul:has(> li > .couple-card) > li:first-child {
+} */
+
+/* li:has(> .couple-card) > .css-to7de5::before {
+  height: 58px !important;
+  transform: translateY(-35px) !important;
+}
+
+ul:has(> li > .couple-card) > li:first-child {
+  margin-left: 120px;
+  background-color: red;
+  transform: translateX(120px) !important;
+}
+
+li:has(> .couple-card) > .css-to7de5 {
+  transform: translateX(120px) !important;
+  width: fit-content !important;
+} */
+
+/* li:has(> .couple-card)::before {
+  width: 98% !important;
+} */
+
+/* .css-1vs3jbz::before {
+    width: 98% !important;
+} */
+
+.css-to7de5::before {
+    margin-left: 1px;
+}
 /* Add this CSS in your stylesheets or as a style block in your component */
 .red-dot {
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
-  position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
 }
 
 /* :root {

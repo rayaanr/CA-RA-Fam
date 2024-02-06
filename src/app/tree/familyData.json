@@ -27,6 +27,7 @@
         "id": 3,
         "mid": 1,
         "fid": 2,
+        "pids":[6],
         "name": "Me",
         "born": "2000-01-01",
         "gender": "male",
@@ -49,5 +50,30 @@
         "born": "2004-01-01",
         "gender": "male",
         "img": "https://cdn.balkan.app/shared/w10/3.jpg"
+    },    {
+        "id": 6,
+        "pids": [3],
+        "name": "My Wife",
+        "gender": "female",
+        "born": "1976-05-15",
+        "img": "https://cdn.balkan.app/shared/2.jpg"
+    },
+    {
+        "id": 7,
+        "mid": 6,
+        "fid": 3,
+        "name": "My Son",
+        "born": "2004-01-01",
+        "gender": "male",
+        "img": "https://cdn.balkan.app/shared/w10/3.jpg"
+    },{
+        "id": 8,
+        "mid": 6,
+        "fid": 3,
+        "name": "My Daughter",
+        "born": "2004-01-01",
+        "gender": "male",
+        "img": "https://cdn.balkan.app/shared/w10/3.jpg"
     }
+    
 ]
