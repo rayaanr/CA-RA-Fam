@@ -1,9 +1,11 @@
-import Tree from './components/Tree';
+import { Button } from "@nextui-org/button";
+import TopNav from "./components/TopNav";
 
-export default function Home() {
-  return (
-    <main>
-      <Tree />
-    </main>
-  );
+export default function Page() {
+    return (
+        <div>
+            <TopNav />
+            <Button>Click me</Button>
+        </div>
+    );
 }
