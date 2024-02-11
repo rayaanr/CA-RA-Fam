@@ -1,16 +1,18 @@
+import React, { useState } from "react";
 import { getIndividualByID } from "@/app/utils/data/familyTree";
 import { Individual } from "@/app/global/types";
 import {
     Card,
     CardBody,
-    CardFooter,
     Dropdown,
     DropdownTrigger,
     DropdownMenu,
     DropdownItem,
     Button,
+    useDisclosure,
 } from "@nextui-org/react";
 import { FaPlus } from "react-icons/fa";
+import AddUserModal from "../modals/AddUserModal";
 
 export default function UserCard({
     userID,
@@ -20,6 +22,25 @@ export default function UserCard({
     treeData: Individual[];
 }) {
     const userData = getIndividualByID(userID, treeData);
+    const [selectedKey, setSelectedKey] = useState("");
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    const handleSelection = (key: string) => {
+        setSelectedKey(key);
+        onOpen();
+    };
+
+    const disabledKeys = [];
+    if (userData?.fatherID) disabledKeys.push("father");
+    if (userData?.motherID) disabledKeys.push("mother");
+
+    const dropdownItems = [
+        { key: "father", label: "Add Father" },
+        { key: "mother", label: "Add Mother" },
+        { key: "spouse", label: "Add Spouse" },
+        { key: "son", label: "Add Son" },
+        { key: "daughter", label: "Add Daughter" },
+    ];
 
     return (
         <main className="relative">
@@ -41,13 +62,29 @@ export default function UserCard({
                         <FaPlus className="text-[10px]" />
                     </Button>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions" variant="bordered">
-                    <DropdownItem key="new">Add Father</DropdownItem>
-                    <DropdownItem key="copy">Add Mother</DropdownItem>
-                    <DropdownItem key="edit">Add Son</DropdownItem>
-                    <DropdownItem key="delete">Add Daughter</DropdownItem>
+                <DropdownMenu
+                    aria-label="Static Actions"
+                    variant="bordered"
+                    disabledKeys={disabledKeys}
+                >
+                    {dropdownItems.map((item) => (
+                        <DropdownItem
+                            key={item.key}
+                            closeOnSelect={true}
+                            onClick={() => handleSelection(item.key)}
+                        >
+                            {item.label}
+                        </DropdownItem>
+                    ))}
                 </DropdownMenu>
             </Dropdown>
+            <AddUserModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                userID={userID}
+                treeData={treeData}
+                selectionKey={selectedKey}
+            />
         </main>
     );
 }
