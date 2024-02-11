@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, NavbarBrand, NavbarContent, Button } from "@nextui-org/react";
 
 import "@theme-toggles/react/css/Classic.css";
-import { ThemeSwitcher } from "../global/ThemeSwitcher";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export default function TopNav() {
     return (
