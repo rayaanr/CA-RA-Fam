@@ -1,7 +1,8 @@
-"use client";   //This is for NextJS, remove it if you are using simple React
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import Xarrow from "react-xarrows";
+import { fetchAndProcessFamilyData } from "../utils/getfamilyTreeData";
 
 type relationship = 'parent' | 'spouse';
 
@@ -21,6 +22,7 @@ interface RenderMemberProps {
     id: string;
     spouse?: string;
 }
+
 
 const familyTree: FamilyMember[] = [
     {
@@ -128,6 +130,9 @@ const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({ member }) => {
 };
 
 export default async function Tree() {
+    const familyData = await fetchAndProcessFamilyData();
+    console.log("Family Data:", familyData);
+
     return (
         <div>
             {familyTree.map((member) => (

@@ -1,18 +1,39 @@
-export type relationship = 'parent' | 'spouse';
+type relationship = 'parent' | 'spouse';
 
-export type FamilyMember = {
+type Gender = 'Male' | 'Female' | 'Other' | 'Prefer not to say'
+
+export interface Individual {
     id: string;
-    name: string;
-    spouse?: string;
-    children?: FamilyMember[];
-};
-
-export interface FamilyMemberProps {
-    member: FamilyMember;
+    firstName: string;
+    lastName?: string;
+    gender: Gender
+    birthDate?: Date;
+    deathDate?: Date;
+    birthPlace?: string;
+    relationshipsAsIndividual1?: Relationship[];
+    relationshipsAsIndividual2?: Relationship[];
+    additionalDetails?: AdditionalDetail[];
+    createdAt: Date;
+    updatedAt: Date;
 }
 
-export interface RenderMemberProps {
-    name: string;
+export interface Relationship {
     id: string;
-    spouse?: string;
+    individual1Id: string;
+    individual2Id: string;
+    relationshipType: relationship;
+    individual1: Individual;
+    individual2: Individual;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface AdditionalDetail {
+    id: string;
+    individualId: string;
+    detailType: string;
+    detailValue: string;
+    individual: Individual;
+    createdAt: Date;
+    updatedAt: Date;
 }
