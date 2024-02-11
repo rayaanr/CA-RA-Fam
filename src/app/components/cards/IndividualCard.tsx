@@ -12,11 +12,11 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import { FaPlus } from "react-icons/fa";
-import AddUserModal from "./modals/AddUserModal";
+import AddUserModal from "../modals/AddUserModal";
 
 export default function UserCard({
     userID,
-    treeData,
+    treeData
 }: {
     userID: string;
     treeData: Individual[];
@@ -31,15 +31,13 @@ export default function UserCard({
     };
 
     const disabledKeys = [];
-    if (userData?.fatherID) disabledKeys.push("father");
-    if (userData?.motherID) disabledKeys.push("mother");
+    if (userData?.fatherID && userData?.motherID ) disabledKeys.push("parent");
+    if (userData?.spouseID) disabledKeys.push("spouse");
 
     const dropdownItems = [
-        { key: "father", label: "Add Father" },
-        { key: "mother", label: "Add Mother" },
+        { key: "parent", label: "Add Parent" },
         { key: "spouse", label: "Add Spouse" },
-        { key: "son", label: "Add Son" },
-        { key: "daughter", label: "Add Daughter" },
+        { key: "child", label: "Add Child" },
     ];
 
     return (

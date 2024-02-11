@@ -5,7 +5,7 @@ import axios from "axios";
 import { createFamilyTree, getIndividualByID } from "../utils/data/familyTree";
 import { Individual } from "@/app/global/types";
 import Xarrow from "react-xarrows";
-import UserCard from "./IndividualCard";
+import UserCard from "./cards/IndividualCard";
 
 interface TreeNode {
     id: string;

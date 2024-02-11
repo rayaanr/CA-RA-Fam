@@ -9,7 +9,7 @@ export default function TopNav() {
         <Navbar maxWidth="full">
             <NavbarBrand>
                 {/* <BrandLogo /> */}
-                <p className="font-bold text-inherit">Brand Name</p>
+                <p className="font-bold text-inherit">FamLine</p>
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 {/* Center items goes here */}

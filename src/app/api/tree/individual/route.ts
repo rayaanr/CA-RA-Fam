@@ -18,10 +18,17 @@ export async function POST(req: NextRequest) {
     }
     await prisma.individual.create({
         data: {
-            id: nanoid(),
+            id: body.id ? body.id : nanoid(),
             firstName: body.firstName,
             lastName: body.lastName,
             gender: body.gender,
+            birthDate: body.birthDate,
+            deathDate: body.deathDate,
+            birthPlace: body.birthPlace,
+            fatherID: body.fatherID,
+            motherID: body.motherID,
+            parentToChild: body.parentToChild,
+            spouseID: body.spouseID,
         },
     });
     return NextResponse.json(
@@ -41,3 +48,34 @@ export async function DELETE(req: NextRequest) {
     await prisma.individual.delete({ where: { id: individualId } });
     return NextResponse.json({ message: "Individual deleted" });
 }
+
+// Update an individual
+export async function PUT(req: NextRequest) {
+    const body = await req.json();
+    const { individualId } = body;
+    const individualExists = await prisma.individual.findUnique({ where: { id: individualId } });
+    if (!individualExists) {
+        return NextResponse.json({ message: "Individual does not exist" }, { status: 404 });
+    }
+    // const validation = individualSchema.safeParse(body);
+    // if (!validation.success) {
+    //     return NextResponse.json(validation.error.errors, { status: 400 });
+    // }
+    await prisma.individual.update({
+        where: { id: individualId },
+        data: {
+            firstName: body.firstName,
+            lastName: body.lastName,
+            gender: body.gender,
+            birthDate: body.birthDate,
+            deathDate: body.deathDate,
+            birthPlace: body.birthPlace,
+            fatherID: body.fatherID,
+            motherID: body.motherID,
+            parentToChild: body.parentToChild,
+            spouseID: body.spouseID,
+        }
+    });
+    return NextResponse.json({ message: "Individual updated" });
+}
+        

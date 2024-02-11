@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Modal,
     ModalHeader,
@@ -13,6 +13,8 @@ import {
 import { Individual } from "@/app/global/types";
 import { getIndividualByID } from "@/app/utils/data/familyTree";
 import { capitalizeFirstLetter } from "@/app/global/functions";
+import axios from "axios";
+import { nanoid } from "nanoid";
 
 interface AddUserModalProps {
     isOpen: boolean;
@@ -30,12 +32,43 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
     selectionKey,
 }) => {
     const userData = getIndividualByID(userID, treeData);
+    const [gender, setGender] = useState<"Male" | "Female" | null>(null);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+
+    function handleModalClose() {
+        onOpenChange(false);
+        setGender(null);
+    }
+
+    async function handleSave() {
+        try {
+            const newUserID = nanoid();
+
+            const newIndividual = await axios.post("/api/tree/individual", {
+                id: newUserID,
+                firstName: firstName,
+                lastName: lastName,
+                gender: gender,
+                spouseID: selectionKey === "spouse" ? userID : null,
+            });
+            if (selectionKey === "spouse") {
+                await axios.put("/api/tree/individual", {
+                    individualId: userID,
+                    spouseID: newUserID,
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <Modal
             isOpen={isOpen}
             onOpenChange={onOpenChange}
             placement="top-center"
+            onClose={handleModalClose}
         >
             <ModalContent>
                 {(onClose) => (
@@ -50,30 +83,28 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
                                 label="First Name"
                                 placeholder="Enter your first name"
                                 variant="bordered"
-                                type="text"
+                                type="text" isRequired
+                                onChange={(e) => setFirstName(e.target.value)}
                             />
                             <Input
                                 label="Last Name"
                                 placeholder="Enter your last name"
                                 type="text"
                                 variant="bordered"
+                                onChange={(e) => setLastName(e.target.value)}
                             />
-                            <section className="flex gap-10">
+                            <section className="flex gap-5">
                                 <Checkbox
-                                    defaultSelected={
-                                        selectionKey === "father" ||
-                                        selectionKey === "son"
-                                    }
+                                    isSelected={gender === "Male"}
+                                    onChange={() => setGender("Male")}
                                 >
                                     Male
                                 </Checkbox>
                                 <Checkbox
-                                    defaultSelected={
-                                        selectionKey === "mother" ||
-                                        selectionKey === "daughter"
-                                    }
+                                    isSelected={gender === "Female"}
+                                    onChange={() => setGender("Female")}
                                 >
-                                    FeMale
+                                    Female
                                 </Checkbox>
                             </section>
                         </ModalBody>
@@ -85,7 +116,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
                             >
                                 Close
                             </Button>
-                            <Button color="primary" onPress={onClose}>
+                            <Button color="primary" onPress={onClose} onClick={handleSave}>
                                 Save
                             </Button>
                         </ModalFooter>
