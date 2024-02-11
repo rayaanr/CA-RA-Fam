@@ -20,7 +20,7 @@ export function ThemeSwitcher() {
             placeholder="theme-swithcer"
             toggled={theme === "light"}
             toggle={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="text-3xl"
+            className="text-2xl"
         />
     );
 }

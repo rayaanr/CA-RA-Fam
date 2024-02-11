@@ -5,7 +5,7 @@ import axios from "axios";
 import { createFamilyTree, getIndividualByID } from "../utils/data/familyTree";
 import { Individual } from "@/app/global/types";
 import Xarrow from "react-xarrows";
-import UserCard from "@/app/components/Cards/UserCard";
+import UserCard from "@/app/components/cards/UserCard";
 
 
 interface TreeNode {
@@ -29,25 +29,19 @@ const RenderIndividual = ({
 }) => {
     const individual = getIndividualByID(id, treeData);
     if (!individual) return null;
-    const spouse = getIndividualByID(
-        individual.spouseID ? individual.spouseID : "",
-        treeData
-    );
 
     return (
         <>
-            <div id={`main-${individual.id}`} className="w-40">
+            <section id={`main-${individual.id}`} className="w-40">
                 <UserCard userID={individual.id} treeData={treeData} />
-                {/* {individual.firstName} {individual.lastName} */}
-            </div>
+            </section>
             {individual.spouseID && (
-                <div>
+                <section>
                     <div
                         id={`spouse-${individual.spouseID}`}
                         className="w-40"
                     >
                         <UserCard userID={individual.spouseID} treeData={treeData} />
-                        {/* {spouse?.firstName} {spouse?.lastName} */}
                     </div>
                     <Xarrow
                         start={`main-${individual.id}`}
@@ -55,7 +49,7 @@ const RenderIndividual = ({
                         showHead={false}
                         strokeWidth={2}
                     />
-                </div>
+                </section>
             )}
         </>
     );
@@ -75,14 +69,14 @@ const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({
     }, []);
 
     return (
-        <div className="flex flex-col gap-20 items-center justify-center">
-            <div ref={parentRef} className="text-center">
+        <main className="flex flex-col gap-20 items-center justify-center">
+            <section ref={parentRef} className="text-center">
                 <div className="flex gap-5">
                     <RenderIndividual id={individual.id} treeData={treeData} />
                 </div>
-            </div>
+            </section>
             {individual.children && individual.children.length > 0 && (
-                <div className="flex gap-12 flex-wrap justify-between">
+                <section className="flex gap-12 flex-wrap justify-between">
                     {individual.children.map((child) => (
                         <div
                             key={child.id}
@@ -106,9 +100,9 @@ const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({
                             />
                         </div>
                     ))}
-                </div>
+                </section>
             )}
-        </div>
+        </main>
     );
 };
 
@@ -136,7 +130,7 @@ export default function FamilyTreeComponent() {
     }, []);
 
     return (
-        <div>
+        <main>
             {familyTree.map((individual) => (
                 <FamilyMemberComponent
                     key={individual.id}
@@ -144,6 +138,6 @@ export default function FamilyTreeComponent() {
                     treeData={treeData}
                 />
             ))}
-        </div>
+        </main>
     );
 }
