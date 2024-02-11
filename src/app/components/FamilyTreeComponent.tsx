@@ -5,8 +5,7 @@ import axios from "axios";
 import { createFamilyTree, getIndividualByID } from "../utils/data/familyTree";
 import { Individual } from "@/app/global/types";
 import Xarrow from "react-xarrows";
-import UserCard from "./cards/UserCard";
-
+import UserCard from "./IndividualCard";
 
 interface TreeNode {
     id: string;
@@ -37,11 +36,11 @@ const RenderIndividual = ({
             </section>
             {individual.spouseID && (
                 <section>
-                    <div
-                        id={`spouse-${individual.spouseID}`}
-                        className="w-40"
-                    >
-                        <UserCard userID={individual.spouseID} treeData={treeData} />
+                    <div id={`spouse-${individual.spouseID}`} className="w-40">
+                        <UserCard
+                            userID={individual.spouseID}
+                            treeData={treeData}
+                        />
                     </div>
                     <Xarrow
                         start={`main-${individual.id}`}
@@ -105,7 +104,6 @@ const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({
         </main>
     );
 };
-
 
 export default function FamilyTreeComponent() {
     const [familyTree, setFamilyTree] = useState<TreeNode[]>([]);

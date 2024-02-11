@@ -12,7 +12,7 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import { FaPlus } from "react-icons/fa";
-import AddUserModal from "../modals/AddUserModal";
+import AddUserModal from "./modals/AddUserModal";
 
 export default function UserCard({
     userID,
