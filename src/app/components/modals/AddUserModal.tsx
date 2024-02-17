@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
     Modal,
     ModalHeader,
@@ -15,6 +15,7 @@ import { getIndividualByID } from "@/app/utils/data/familyTree";
 import { capitalizeFirstLetter } from "@/app/global/functions";
 import axios from "axios";
 import { nanoid } from "nanoid";
+import updateRelationOnAdd from "@/app/utils/updateRelation";
 
 interface AddUserModalProps {
     isOpen: boolean;
@@ -22,6 +23,7 @@ interface AddUserModalProps {
     userID: string;
     treeData: Individual[];
     selectionKey: string;
+    onDataUpdated: () => void;
 }
 
 const AddUserModal: React.FC<AddUserModalProps> = ({
@@ -30,6 +32,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
     userID,
     treeData,
     selectionKey,
+    onDataUpdated,
 }) => {
     const userData = getIndividualByID(userID, treeData);
     const [gender, setGender] = useState<"Male" | "Female" | null>(null);
@@ -44,24 +47,22 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
     async function handleSave() {
         try {
             const newUserID = nanoid();
-
-            const newIndividual = await axios.post("/api/tree/individual", {
+    
+            await axios.post("/api/tree/individual", {
                 id: newUserID,
                 firstName: firstName,
                 lastName: lastName,
                 gender: gender,
-                spouseID: selectionKey === "spouse" ? userID : null,
             });
-            if (selectionKey === "spouse") {
-                await axios.put("/api/tree/individual", {
-                    individualId: userID,
-                    spouseID: newUserID,
-                });
-            }
+
+            await updateRelationOnAdd(treeData, userID, newUserID, selectionKey, gender);
+
+            onDataUpdated();
         } catch (error) {
             console.error(error);
         }
     }
+    
 
     return (
         <Modal

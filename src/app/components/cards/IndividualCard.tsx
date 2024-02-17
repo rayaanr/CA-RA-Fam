@@ -16,10 +16,12 @@ import AddUserModal from "../modals/AddUserModal";
 
 export default function UserCard({
     userID,
-    treeData
+    treeData,
+    handleDataUpdated,
 }: {
     userID: string;
     treeData: Individual[];
+    handleDataUpdated: () => void;
 }) {
     const userData = getIndividualByID(userID, treeData);
     const [selectedKey, setSelectedKey] = useState("");
@@ -82,6 +84,7 @@ export default function UserCard({
                 userID={userID}
                 treeData={treeData}
                 selectionKey={selectedKey}
+                onDataUpdated={handleDataUpdated}
             />
         </main>
     );

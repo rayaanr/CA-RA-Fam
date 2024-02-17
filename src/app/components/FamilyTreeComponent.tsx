@@ -16,15 +16,18 @@ interface TreeNode {
 interface FamilyMemberProps {
     individual: TreeNode;
     treeData: Individual[];
+    handleDataUpdated: () => void;
 }
 
 // Render individual family member
 const RenderIndividual = ({
     id,
     treeData,
+    handleDataUpdated,
 }: {
     id: string;
     treeData: Individual[];
+    handleDataUpdated: () => void;
 }) => {
     const individual = getIndividualByID(id, treeData);
     if (!individual) return null;
@@ -32,7 +35,7 @@ const RenderIndividual = ({
     return (
         <>
             <section id={`main-${individual.id}`} className="w-40">
-                <UserCard userID={individual.id} treeData={treeData} />
+                <UserCard userID={individual.id} treeData={treeData} handleDataUpdated={handleDataUpdated} />
             </section>
             {individual.spouseID && (
                 <section>
@@ -40,6 +43,7 @@ const RenderIndividual = ({
                         <UserCard
                             userID={individual.spouseID}
                             treeData={treeData}
+                            handleDataUpdated={handleDataUpdated}
                         />
                     </div>
                     <Xarrow
@@ -57,6 +61,7 @@ const RenderIndividual = ({
 const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({
     individual,
     treeData,
+    handleDataUpdated,
 }) => {
     const parentRef = useRef<HTMLDivElement>(null);
     const [parentHeight, setParentHeight] = useState(0);
@@ -71,7 +76,9 @@ const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({
         <main className="flex flex-col gap-20 items-center justify-center">
             <section ref={parentRef} className="text-center">
                 <div className="flex gap-5">
-                    <RenderIndividual id={individual.id} treeData={treeData} />
+                    <RenderIndividual id={individual.id} treeData={treeData} 
+                    handleDataUpdated={handleDataUpdated} />
+                    
                 </div>
             </section>
             {individual.children && individual.children.length > 0 && (
@@ -96,6 +103,7 @@ const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({
                             <FamilyMemberComponent
                                 individual={child}
                                 treeData={treeData}
+                                handleDataUpdated={handleDataUpdated}
                             />
                         </div>
                     ))}
@@ -108,6 +116,8 @@ const FamilyMemberComponent: React.FC<FamilyMemberProps> = ({
 export default function FamilyTreeComponent() {
     const [familyTree, setFamilyTree] = useState<TreeNode[]>([]);
     const [treeData, setTreeData] = useState<Individual[]>([]); // State to hold all individuals
+    const [updateCounter, setUpdateCounter] = useState(0);
+
 
     useEffect(() => {
         const fetchAllIndividuals = async () => {
@@ -115,8 +125,8 @@ export default function FamilyTreeComponent() {
                 const res = await axios.get<Individual[]>(
                     "/api/tree/individual"
                 );
-                setTreeData(res.data); // Populate treeData with fetched data
-                const tree = createFamilyTree(res.data); // Use fetched data to create family tree
+                setTreeData(res.data);
+                const tree = createFamilyTree(res.data);
                 setFamilyTree(tree);
                 console.log(tree);
             } catch (error) {
@@ -125,7 +135,12 @@ export default function FamilyTreeComponent() {
         };
 
         fetchAllIndividuals();
-    }, []);
+    }, [updateCounter]);
+
+    const handleDataUpdated = () => {
+        setUpdateCounter((prev) => prev + 1);
+    };
+    
 
     return (
         <main>
@@ -134,6 +149,7 @@ export default function FamilyTreeComponent() {
                     key={individual.id}
                     individual={individual}
                     treeData={treeData}
+                    handleDataUpdated={handleDataUpdated}
                 />
             ))}
         </main>
